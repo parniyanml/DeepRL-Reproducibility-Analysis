@@ -29,7 +29,6 @@ The study evaluates the performance and stability of the following algorithms:
 ## 📂 Contents
 - `report/`: The detailed project report (PDF), including mathematical formulations and experimental results.
 - `slides/`: Presentation slides summarizing the methodology and findings.
-- `results/`: (Optional) Visualizations and performance plots.
 
 ---
 *This project was conducted under the supervision of the Department of Electrical and Computer Engineering at IUT.*
