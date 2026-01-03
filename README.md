@@ -61,7 +61,7 @@ To ensure robust reporting, this project utilizes the following metrics:
 
 The results indicate that sources of non-determinism—both internal (random seeds, environment dynamics) and external (hyperparameters, codebases)—contribute heavily to the difficulty of reproducing baselines. To sustain progress in the field, it is critical to report all experimental details, release codebases, and use proper statistical significance metrics rather than relying solely on maximum rewards or top-N trials.
 
-## Author and Credits
+## Credits
 
 **Author:** Parniyan Malekzadeh  
 **Supervisor:** Dr. Manshaei  
