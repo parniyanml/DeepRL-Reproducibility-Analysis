@@ -1,34 +1,68 @@
-# Reproducibility Analysis in Deep Reinforcement Learning
+# DeepRL-Reproducibility-Analysis
 
-This repository contains the comprehensive report and presentation slides for a research project on **Deep Reinforcement Learning (Deep RL)**. The project focuses on the critical issue of reproducibility in continuous control tasks.
+A comprehensive study on the reproducibility of Deep Reinforcement Learning algorithms (TRPO, PPO, DDPG, ACKTR) in continuous control tasks.
+
+## Overview
+
+Reproducing results for state-of-the-art Deep Reinforcement Learning (RL) methods is often challenging. Factors such as non-determinism in standard benchmark environments, intrinsic variance in algorithms, and differences in implementation details can make reported results difficult to interpret.
+
+This project investigates the challenges posed by reproducibility, experimental techniques, and reporting procedures. It illustrates the variability in reported metrics and results when comparing against common baselines and suggests guidelines to make future results in Deep RL more reproducible.
+
+## Algorithms Studied
+
+The analysis focuses on the following model-free policy gradient methods:
+
+* **TRPO** (Trust Region Policy Optimization)
+* **PPO** (Proximal Policy Optimization)
+* **DDPG** (Deep Deterministic Policy Gradient)
+* **ACKTR** (Actor-Critic using Kronecker-Factored Trust Region)
+
+## Environments
+
+Experiments were conducted using continuous control tasks from the OpenAI Gym MuJoCo suite, selected for their varying dynamic properties:
+
+* **HalfCheetah-v1:** Represents stable dynamics where agents generally learn to run forward effectively.
+* **Hopper-v1:** Represents unstable dynamics where agents must balance; failure results in shortened trajectories.
+* **Swimmer-v1:** A fluid-like environment where local optima (e.g., flailing without moving) are common.
+* **Walker2d-v1:** A bipedal locomotion task requiring significant coordination.
+
+## Key Factors Analyzed
+
+This study isolates and analyzes specific factors affecting the reproducibility of the algorithms listed above:
+
+### 1. Hyperparameters and Network Architecture
+The project evaluates the impact of network structures and activation functions on performance.
+* **Architectures:** Multi-Layer Perceptrons (MLP) with varying hidden layer sizes (e.g., 64x64, 400x300, 100x50x25).
+* **Activation Functions:** ReLU, Tanh, Leaky ReLU, and ELU.
+* **Finding:** Performance is highly sensitive to simple changes in activation functions or architecture size. For example, DDPG performance can vary significantly depending on whether ReLU or Tanh is used for the critic network.
+
+### 2. Random Seeds and Trial Counts
+We demonstrate that changing only the random seed can lead to statistically different distributions of results.
+* **Observation:** Averaging a small number of trials (e.g., 5) can produce misleading learning curves.
+* **Recommendation:** Reporting results based on a larger number of trials and utilizing bootstrap confidence intervals is essential for accuracy.
+
+### 3. Environment Properties
+The study highlights how algorithmic performance is tied to specific environment dynamics.
+* **Dynamics:** DDPG outperforms others in stable environments like HalfCheetah but struggles in unstable environments like Hopper due to exploration noise causing early failures.
+* **Local Optima:** In the Swimmer environment, TRPO significantly outperforms other methods, which often get stuck in local optima (flailing without swimming).
+
+### 4. Codebase Variations
+We compared different open-source implementations of the same algorithms (e.g., OpenAI Baselines vs. rllab implementations).
+* **Finding:** Implementation details not always reflected in papers can lead to drastic differences in performance. A comparison of TRPO codebases showed significant divergence in average returns despite using identical hyperparameters.
+
+## Evaluation Metrics
+
+To ensure robust reporting, this project utilizes the following metrics:
+* **Average Return:** The mean cumulative reward over the learning process.
+* **Confidence Intervals:** 95% bootstrap confidence intervals to visualize the variance in performance.
+* **Significance Testing:** Application of statistical tests (e.g., Kolmogorov-Smirnov, t-tests) to determine if improvements are statistically significant.
+
+## Conclusion
+
+The results indicate that sources of non-determinism—both internal (random seeds, environment dynamics) and external (hyperparameters, codebases)—contribute heavily to the difficulty of reproducing baselines. To sustain progress in the field, it is critical to report all experimental details, release codebases, and use proper statistical significance metrics rather than relying solely on maximum rewards or top-N trials.
+
+## Author and Credits
 
 **Author:** Parniyan Malekzadeh  
-**Supervisor:** Prof. Mohammad Hossein Manshaei  
-**Institution:** Isfahan University of Technology (IUT)
-
-##  Project Overview
-Reproducing state-of-the-art Deep RL results is often challenging due to non-determinism in standard benchmarks and intrinsic variance in algorithms. This project investigates these challenges by conducting a comparative analysis of policy gradient methods.
-
-We examine the impact of:
-- **Hyperparameters** (Network architecture, Activation functions like ReLU/Tanh)
-- **Random Seeds** and statistical significance
-- **Environment Dynamics** (MuJoCo environments: HalfCheetah, Hopper, Swimmer)
-
-##  Algorithms Implemented & Analyzed
-The study evaluates the performance and stability of the following algorithms:
-- **TRPO** (Trust Region Policy Optimization)
-- **DDPG** (Deep Deterministic Policy Gradient)
-- **PPO** (Proximal Policy Optimization)
-- **ACKTR** (Actor-Critic using Kronecker-Factored Trust Region)
-
-##  Key Results
-- **Sensitivity:** The analysis highlights how minor changes in codebases or hyperparameters can lead to drastically different results.
-- **Reporting Standards:** We propose guidelines for more robust experimental reporting, emphasizing the necessity of confidence intervals over simple average returns.
-- **Performance:** Comparative plots demonstrate the variance of algorithms like DDPG versus more stable methods like PPO across different random seeds.
-
-##  Contents
-- `report/`: The detailed project report (PDF), including mathematical formulations and experimental results.
-- `slides/`: Presentation slides summarizing the methodology and findings.
-
----
-*This project was conducted under the supervision of the Department of Electrical and Computer Engineering at IUT.*
+**Supervisor:** Dr. Manshaei  
+**Institution:** Isfahan University of Technology  
